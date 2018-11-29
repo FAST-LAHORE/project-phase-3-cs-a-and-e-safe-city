@@ -2,6 +2,12 @@
 project-phase-3-cs-a-and-e-safe-city created by GitHub Classroom
 
 
+//Settings
+As project forms use Absolute Layout you need to add AbsoluteLayout.jar.
+Right Click Project->Go to Properties and click it-> select Libraries->select Add Jar
+Navigate to C:\Program Files\NetBeans 8.0.2\java\modules\ext\AbsoluteLayout.jar
+select and add it.
+
 //
 Purpose:
 Safe-city is a project that ensures the safety of public and preservation of public-laws by using modern technology. 
