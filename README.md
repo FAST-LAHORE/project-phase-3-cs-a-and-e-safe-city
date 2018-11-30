@@ -8,6 +8,17 @@ Right Click Project->Go to Properties and click it-> select Libraries->select Ad
 Navigate to C:\Program Files\NetBeans 8.0.2\java\modules\ext\AbsoluteLayout.jar
 select and add it.
 
+//JxBrowser Setting
+Download its jar file from : https://www.teamdev.com/jxbrowser
+Add all the jar files in lib folder to libraries.
+Add License jar file in lib folder to libraries.
+
+//Route Use Case
+Program Uses Google maps for checking routes which gives shortest path and updates in real time.
+As google provides Google Maps API only with Payment we are using JxBrowser API.
+It integrates a browser in java application which is used to connect with Google Maps.
+Note : We are using 30 days Academic License for JxBrowser
+
 //
 Purpose:
 Safe-city is a project that ensures the safety of public and preservation of public-laws by using modern technology. 
