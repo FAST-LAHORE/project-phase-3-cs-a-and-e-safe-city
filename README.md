@@ -68,3 +68,13 @@ The major user of this app are the Safe-city employees.
 •	Reports crime, emergency, traffic blockage etc. to police head quarter or rescue organizations. 
 •	All the notifications reported by public are also entertained by safecity employee.
 •	They can check fastest (traffic free) route between two location as well.
+
+===== THIRD-PARTY JAR =====
+
+1. mail.jar (supported by Google)
+    
+   To send challan to a person.
+   Download mail.jar from this repository. Right click Libraries (in Projects menu) -> Add JAR/Folder -> Navigate and add mail.jar.
+   Make sure sender's Gmail address and password matches and sender have enabled Allow Less-secure Apps by going to  https://myaccount.google.com/lesssecureapps
+   
+   
