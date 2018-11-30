@@ -63,7 +63,7 @@ The major user of this app are the Safe-city employees.
 1. mail.jar (supported by Google)
     
    To send challan to a person.
-   Download mail.jar from this repository. Right click Libraries (in Projects menu) -> Add JAR/Folder -> Navigate and add mail.jar.
+   Download Libraries -> mail.jar from this repository. Right click Libraries (in Projects menu) -> Add JAR/Folder -> Navigate and add mail.jar.
    Make sure sender's Gmail address and password matches and sender have enabled Allow Less-secure Apps by going to  https://myaccount.google.com/lesssecureapps
    
    
