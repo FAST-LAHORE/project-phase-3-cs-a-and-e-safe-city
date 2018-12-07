@@ -516,10 +516,10 @@ public class PolicePortal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ViewVehicalTrackList(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ViewVehicalTrackList
-        setLblColor(CreateChallan);
+        setLblColor(CameraSurveillance);
         resetLblColor(Home);
         resetLblColor(SendReport);
-        resetLblColor(CameraSurveillance);
+        resetLblColor(CreateChallan);
         RightPanel.removeAll();
         RightPanel.add(HomeMenu);
         RightPanel.repaint();
