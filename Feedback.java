@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Bilal
+ * @author hashi
  */
 @Entity
 @Table(name = "FEEDBACK")
@@ -27,27 +27,34 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f")
     , @NamedQuery(name = "Feedback.findById", query = "SELECT f FROM Feedback f WHERE f.id = :id")
-    , @NamedQuery(name = "Feedback.findByMessage", query = "SELECT f FROM Feedback f WHERE f.message = :message")
-    , @NamedQuery(name = "Feedback.findByCatogory", query = "SELECT f FROM Feedback f WHERE f.catogory = :catogory")})
+    , @NamedQuery(name = "Feedback.findByCategory", query = "SELECT f FROM Feedback f WHERE f.category = :category")
+    , @NamedQuery(name = "Feedback.findByText", query = "SELECT f FROM Feedback f WHERE f.text = :text")})
 public class Feedback implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "MESSAGE")
-    private String message;
-    @Column(name = "CATOGORY")
-    private Boolean catogory;
+    @Basic(optional = false)
+    @Column(name = "CATEGORY")
+    private String category;
+    @Basic(optional = false)
+    @Column(name = "TEXT")
+    private String text;
 
     public Feedback() {
     }
 
     public Feedback(Integer id) {
         this.id = id;
+    }
+
+    public Feedback(Integer id, String category, String text) {
+        this.id = id;
+        this.category = category;
+        this.text = text;
     }
 
     public Integer getId() {
@@ -58,20 +65,20 @@ public class Feedback implements Serializable {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getCategory() {
+        return category;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public Boolean getCatogory() {
-        return catogory;
+    public String getText() {
+        return text;
     }
 
-    public void setCatogory(Boolean catogory) {
-        this.catogory = catogory;
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Override
