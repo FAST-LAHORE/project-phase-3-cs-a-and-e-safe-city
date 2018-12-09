@@ -1,4 +1,4 @@
-package safecity.API;
+package API;
 
 import java.util.Properties;
 import javax.mail.Session;
