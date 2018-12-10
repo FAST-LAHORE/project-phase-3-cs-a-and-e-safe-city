@@ -5,12 +5,21 @@
  */
 package safecity;
 
+import Classes.Category;
+import Classes.Notification;
+import Classes.NotificationFeed;
+import Classes.ProxyNotificationFeed;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import modal.Notification;
-import modal.NotificationFeed;
-import modal.Category;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,27 +27,26 @@ import java.util.ArrayList;
  */
 public class policePortal extends javax.swing.JFrame {
 
-    
-    ArrayList<Integer> notificationIds=new ArrayList<>();
-    
+    ArrayList<Integer> notificationIds = new ArrayList<>();
+    int id;
+    int reg;
+    boolean status;
+
     /**
      * Creates new form policePortal
      */
     public policePortal() {
         super("Police Portal / Safe City");
         initComponents();
-         this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(Details.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         this.setResizable(false);
     }
 
-    
-    ArrayList<Integer> getNotificationIds()
-    {
+    ArrayList<Integer> getNotificationIds() {
         return notificationIds;
     }
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,21 +62,53 @@ public class policePortal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jLabel22 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         policeNotification = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         trackVehicle = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jButton8 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
         trackSuspect = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton9 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         checkRoutePolice = new javax.swing.JPanel();
+        VheicalList = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jButton12 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(2, 91, 133));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
 
         jPanel2.setBackground(new java.awt.Color(54, 33, 89));
         jPanel2.setPreferredSize(new java.awt.Dimension(230, 368));
@@ -84,7 +124,7 @@ public class policePortal extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(0, 37, 55));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Track Vehicle");
+        jButton2.setText("Track Vehicle/Suspect");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -93,7 +133,7 @@ public class policePortal extends javax.swing.JFrame {
 
         jButton3.setBackground(new java.awt.Color(0, 37, 55));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Track Suspect");
+        jButton3.setText("View Tracking list suspect");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -108,8 +148,6 @@ public class policePortal extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/safecity/icons8_Wall_Mount_Camera_96px.png"))); // NOI18N
 
         jButton5.setBackground(new java.awt.Color(0, 37, 55));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
@@ -132,28 +170,51 @@ public class policePortal extends javax.swing.JFrame {
             }
         });
 
+        jButton10.setBackground(new java.awt.Color(0, 37, 55));
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
+        jButton10.setText("View Tracking list vehicle");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jLabel22.setFont(new java.awt.Font("Azonix", 2, 36)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("SafeCity");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addComponent(jLabel1)
-                .addGap(28, 28, 28)
+                .addGap(75, 75, 75)
+                .addComponent(jLabel22)
+                .addGap(6, 6, 6)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -162,8 +223,10 @@ public class policePortal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -173,15 +236,30 @@ public class policePortal extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 204, 102));
 
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/safecity/images/purepng.com-police-carpolice-carpolice-vehiclecop-carcop-vehicle-1701527596246dcsii.png"))); // NOI18N
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel10.setText("WELCOME TO POLICE PORTAL");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 719, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel10)
+                .addGap(0, 183, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addGap(30, 30, 30))
         );
 
         jPanel3.add(jPanel4, "card6");
@@ -222,28 +300,209 @@ public class policePortal extends javax.swing.JFrame {
 
         jPanel3.add(policeNotification, "card5");
 
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton7.setText("Submitt");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel7.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, -1, -1));
+
+        jLabel2.setText("............");
+        jPanel7.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, 22));
+
+        jLabel3.setText("ENTER REGISTRAION NUMBER TO TRACK");
+        jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, -1, -1));
+
+        jTextField1.setText("ENTER.....");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel7.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 125, -1));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Track Vehicle", jPanel6);
+
+        jLabel4.setText("Enter the CNIC to Track the person");
+
+        jTextField2.setText("Enter......");
+
+        jButton8.setText("Submitt");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText(".............");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(190, 190, 190))
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(314, 314, 314)
+                        .addComponent(jButton8))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(254, 254, 254)
+                        .addComponent(jLabel4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel4)
+                .addGap(55, 55, 55)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(230, 230, 230)
+                .addComponent(jButton8)
+                .addContainerGap(254, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Track Suspect", jPanel5);
+
         javax.swing.GroupLayout trackVehicleLayout = new javax.swing.GroupLayout(trackVehicle);
         trackVehicle.setLayout(trackVehicleLayout);
         trackVehicleLayout.setHorizontalGroup(
             trackVehicleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 719, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         trackVehicleLayout.setVerticalGroup(
             trackVehicleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         jPanel3.add(trackVehicle, "card4");
+        jPanel3.add(jTabbedPane2, "card7");
+
+        trackSuspect.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                trackSuspectMouseClicked(evt);
+            }
+        });
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID", "CNIC", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        jButton9.setText("View details");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Select from the tables");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(jLabel7))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(177, 177, 177)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(jLabel6)
+                        .addGap(194, 194, 194)
+                        .addComponent(jButton9)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton9)
+                    .addComponent(jLabel6))
+                .addGap(276, 276, 276)
+                .addComponent(jLabel8))
+        );
 
         javax.swing.GroupLayout trackSuspectLayout = new javax.swing.GroupLayout(trackSuspect);
         trackSuspect.setLayout(trackSuspectLayout);
         trackSuspectLayout.setHorizontalGroup(
             trackSuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 719, Short.MAX_VALUE)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         trackSuspectLayout.setVerticalGroup(
             trackSuspectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel3.add(trackSuspect, "card3");
@@ -260,6 +519,98 @@ public class policePortal extends javax.swing.JFrame {
         );
 
         jPanel3.add(checkRoutePolice, "card2");
+
+        VheicalList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VheicalListMouseClicked(evt);
+            }
+        });
+
+        jScrollPane4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane4MouseClicked(evt);
+            }
+        });
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID", "REGISTRATION_NUM", "STATUS"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable4MouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTable4);
+
+        jButton12.setText("View Details");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("Select a value from the table");
+
+        javax.swing.GroupLayout VheicalListLayout = new javax.swing.GroupLayout(VheicalList);
+        VheicalList.setLayout(VheicalListLayout);
+        VheicalListLayout.setHorizontalGroup(
+            VheicalListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(VheicalListLayout.createSequentialGroup()
+                .addGroup(VheicalListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(VheicalListLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel12)
+                        .addGap(16, 16, 16)
+                        .addComponent(jButton12))
+                    .addGroup(VheicalListLayout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addComponent(jLabel13)))
+                .addContainerGap(458, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, VheicalListLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel14)
+                .addGap(188, 188, 188))
+        );
+        VheicalListLayout.setVerticalGroup(
+            VheicalListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VheicalListLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel13)
+                .addGap(32, 32, 32)
+                .addGroup(VheicalListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton12)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 439, Short.MAX_VALUE)
+                .addComponent(jLabel14))
+        );
+
+        jPanel3.add(VheicalList, "card3");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -292,60 +643,57 @@ public class policePortal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       notificationsShow();
+        notificationsShow();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
-    public void notificationsShow()
-    {
+    public void notificationsShow() {
         jPanel3.removeAll();
         jPanel3.add(policeNotification);
         jPanel3.repaint();
         jPanel3.revalidate();
-        
-        NotificationFeed instance=NotificationFeed.getNotificationFeed();
-        List<Notification> notificationList=instance.getNotifications();
+
+        NotificationFeed instance = ProxyNotificationFeed.getInstance();
+        instance.setNotifications();
+        List<Notification> notificationList = instance.getNotifications();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        
-        for(int i=0;i<notificationList.size();i++)
-        {
-            Notification currentNotification=notificationList.get(i);
-            
-            Category catogory=currentNotification.getCategory();
-           
-            
-                    
-            boolean isPoliceNotification=catogory.equals(Category.Kidnapping)|| catogory.equals(Category.Theft)
-                    ||catogory.equals(Category.LostPerson) || catogory.equals(Category.Murder) 
-                    || catogory.equals(Category.Suicide) || catogory.equals(Category.Other);        
-            
-            
-            if(isPoliceNotification){
-                
-            notificationIds.add(currentNotification.getId());
-                
-            String Status;
-            String phone=currentNotification.getPhone();
-            if(phone==null)
-                phone="Safecity Depatment";
-            
-            if(currentNotification.getStatus()==0)
-                 Status="Not Resolved Yet";
-            else if (currentNotification.getStatus()== 1)
-                 Status="Ongoing..";
-            else 
-                 Status="Resolved";
-            
-            model.addRow(new Object[]{catogory,currentNotification.getDescription()
-            , currentNotification.getLocation(),phone,Status});
-            
-        }
-        
+
+        for (int i = 0; i < notificationList.size(); i++) {
+            Notification currentNotification = notificationList.get(i);
+
+            Category catogory = currentNotification.getCategory();
+
+            boolean isPoliceNotification = catogory.equals(Category.Kidnapping) || catogory.equals(Category.Theft)
+                    || catogory.equals(Category.LostPerson) || catogory.equals(Category.Murder)
+                    || catogory.equals(Category.Suicide) || catogory.equals(Category.Other);
+
+            if (isPoliceNotification) {
+
+                notificationIds.add(currentNotification.getId());
+
+                String Status;
+                String phone = currentNotification.getPhone();
+                if (phone == null) {
+                    phone = "Safecity Depatment";
+                }
+
+                if (currentNotification.getStatus() == 0) {
+                    Status = "Not Resolved Yet";
+                } else if (currentNotification.getStatus() == 1) {
+                    Status = "Ongoing..";
+                } else {
+                    Status = "Resolved";
+                }
+
+                model.addRow(new Object[]{catogory, currentNotification.getDescription(),
+                     currentNotification.getLocation(), phone, Status});
+
+            }
+
         }
     }
-    
-    
+
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         jPanel3.removeAll();
@@ -360,6 +708,41 @@ public class policePortal extends javax.swing.JFrame {
         jPanel3.add(trackSuspect);
         jPanel3.repaint();
         jPanel3.revalidate();
+        
+        Connection myconobj;
+    Statement mystatobj;
+   ResultSet myresobj;
+      ResultSet myresobj1;
+    String query=null;
+    int id;
+    int reg;
+    int cnic;
+    boolean status;
+    
+      ArrayList  <trackinglist> list=new ArrayList();
+    
+        
+        try {
+                    myconobj = DriverManager.getConnection("jdbc:derby://localhost:1527/SafeCityDB");
+                        mystatobj = myconobj.createStatement();
+                       myresobj1 =  mystatobj.executeQuery("Select * from trackingfaceid ");
+
+                    DefaultTableModel model1 = (DefaultTableModel) jTable2.getModel();
+                    model1.setRowCount(0);
+
+                        while(myresobj1.next())  {
+                     id=myresobj1.getInt(1);
+                     cnic=myresobj1.getInt(2);
+                    status=myresobj1.getBoolean(3);
+             
+               model1.addRow(new Object[]{id, cnic,status});
+ 
+        }
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(policePortal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                    
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -369,33 +752,32 @@ public class policePortal extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        
-        javax.swing.JTable source=(javax.swing.JTable)evt.getSource();
-        int rowAtClick =source.rowAtPoint(evt.getPoint());
+
+        javax.swing.JTable source = (javax.swing.JTable) evt.getSource();
+        int rowAtClick = source.rowAtPoint(evt.getPoint());
         ///
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
-       
-        if(rowAtClick!=-1){
-            
-        Category catogory=(Category)model.getValueAt(rowAtClick, 0);
-        String description=(String)model.getValueAt(rowAtClick, 1);
-        String location =(String)model.getValueAt(rowAtClick, 2);
-        String repoter=(String)model.getValueAt(rowAtClick, 3);
-        String status=(String)model.getValueAt(rowAtClick, 4);
-        
-        JtableInfoOrganization infoForm=new JtableInfoOrganization(catogory,description,repoter,status,location,notificationIds.get(rowAtClick),this,1);
-        infoForm.setVisible(true);
+
+        if (rowAtClick != -1) {
+
+            Category catogory = (Category) model.getValueAt(rowAtClick, 0);
+            String description = (String) model.getValueAt(rowAtClick, 1);
+            String location = (String) model.getValueAt(rowAtClick, 2);
+            String repoter = (String) model.getValueAt(rowAtClick, 3);
+            String status = (String) model.getValueAt(rowAtClick, 4);
+
+            JtableInfoOrganization infoForm = new JtableInfoOrganization(catogory, description, repoter, status, location, notificationIds.get(rowAtClick), this, 1);
+            infoForm.setVisible(true);
         }
-        
-        
+
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         this.dispose();
-       HomePageUI ui= new HomePageUI();
-        
+        HomePageUI ui = new HomePageUI();
+
         ui.getCardPanel().removeAll();
         ui.getCardPanel().repaint();
         ui.getCardPanel().revalidate();
@@ -403,9 +785,9 @@ public class policePortal extends javax.swing.JFrame {
         ui.getCardPanel().add(ui.getloginPanel());
         ui.getCardPanel().repaint();
         ui.getCardPanel().revalidate();
-        
+
         ui.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -416,6 +798,247 @@ public class policePortal extends javax.swing.JFrame {
         jPanel3.revalidate();
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+
+        String s = jTextField2.getText();
+        if ("".equals(s)) {
+            jLabel5.setText("Invalid input");
+        } else {
+            int i = Integer.parseInt(s);
+            Connection myconobj = null;
+            PreparedStatement mystatobj = null;
+            ResultSet myresobj = null;
+
+            try {
+                myconobj = DriverManager.getConnection("jdbc:derby://localhost:1527/SafeCityDB");
+
+                // the mysql insert statement
+                String query;
+                query = " insert into trackingfaceid (CNIC,STATUS)"
+                + " values (?, ?)";
+
+                // create the mysql insert preparedstatement
+                mystatobj = myconobj.prepareStatement(query);
+                mystatobj.setInt(1, i);
+                mystatobj.setBoolean(2, false);
+                mystatobj.execute();
+
+                jTextField2.setText("");
+                jLabel5.setText("submitted");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                jLabel5.setText("Must be Unique");
+            }
+
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+
+        String s = jTextField1.getText();
+        if ("".equals(s)) {
+            jLabel2.setText("Invalid input");
+        } else {
+            int i = Integer.parseInt(s);
+            Connection myconobj = null;
+            PreparedStatement mystatobj = null;
+            ResultSet myresobj = null;
+
+            try {
+
+                myconobj = DriverManager.getConnection("jdbc:derby://localhost:1527/SafeCityDB");
+
+                // the mysql insert statement
+                String query;
+                query = " insert into trackingreg (REGISTRATION_NUM,STATUS)"
+                + " values (?, ?)";
+
+                // create the mysql insert preparedstatement
+                mystatobj = myconobj.prepareStatement(query);
+                mystatobj.setInt(1, i);
+                mystatobj.setBoolean(2, false);
+                mystatobj.execute();
+                jTextField1.setText("");
+                jLabel2.setText("submitted");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                jLabel2.setText("Must be Unique");
+
+            }
+
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        try{
+            int row=jTable2.getSelectedRow();
+            int s= (int) (jTable2.getModel().getValueAt(row, 1));
+
+            status=(boolean) (jTable2.getModel().getValueAt(row, 2));
+            String ss=String.valueOf(s);
+            jLabel6.setText(ss);
+
+            jLabel8.setText("");
+        }
+        catch(Exception e)
+        {
+            jLabel8.setText("TABLE IS EMPTY");
+        }    // TODO add your handling code here:
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        String s=jLabel6.getText();
+        if(!s.isEmpty())
+        {
+            int i=Integer.parseInt(s);
+
+            Details d;
+            d = new Details(1,status,i);
+            d.setVisible(true);
+
+        }                 // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void trackSuspectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trackSuspectMouseClicked
+        // TODO add your handling code here:
+        Connection myconobj;
+        Statement mystatobj;
+        ResultSet myresobj;
+        String query=null;
+         int id;
+          int cnic;
+      boolean status;
+      
+   try{
+           myconobj = DriverManager.getConnection("jdbc:derby://localhost:1527/SafeCityDB");
+         mystatobj = myconobj.createStatement();
+        myresobj =  mystatobj.executeQuery("Select * from trackingfaceid ");
+        
+       
+        
+DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+        
+                    while(myresobj.next())  {
+                 id=myresobj.getInt(1);
+                 cnic=myresobj.getInt(2);
+                status=myresobj.getBoolean(3);
+             
+               model.addRow(new Object[]{id, cnic,status});
+                
+                
+            }
+   }
+   catch(SQLException e){
+       
+   }
+    
+    }//GEN-LAST:event_trackSuspectMouseClicked
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+ 
+          jPanel3.removeAll();
+        jPanel3.add(VheicalList);
+        jPanel3.repaint();
+        jPanel3.revalidate();
+      
+        Connection myconobj;
+    Statement mystatobj;
+   ResultSet myresobj;
+      ResultSet myresobj1;
+    String query=null;
+    int id;
+    int reg;
+    boolean status;
+    
+    
+   
+  ArrayList  <trackinglist> list=new ArrayList();
+    
+    
+        try {
+                        myconobj = DriverManager.getConnection("jdbc:derby://localhost:1527/SafeCityDB");
+                     mystatobj = myconobj.createStatement();
+                    myresobj =  mystatobj.executeQuery("Select * from trackingreg");
+                    myresobj1=myresobj;
+
+
+                    DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+                            model.setRowCount(0);
+
+                int j=0;
+                    while(myresobj.next())  {
+                        trackinglist l=new trackinglist();
+                        
+                 l.setId(id=myresobj.getInt(1));
+                 l.setkey(reg=myresobj.getInt(2));
+                l.setStatus(status=myresobj.getBoolean(3));
+             
+               model.addRow(new Object[]{l.getId(), l.getkey(),l.getStatus()});
+               list.add(l);
+                
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(policePortal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           // TODO add your handling code here:
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void VheicalListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VheicalListMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VheicalListMouseClicked
+
+    private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
+        try{
+            int row=jTable4.getSelectedRow();
+            int s= (int) (jTable4.getModel().getValueAt(row, 1));
+
+            status=(boolean) (jTable4.getModel().getValueAt(row, 2));
+            String ss=String.valueOf(s);
+            jLabel12.setText(ss);
+
+            jLabel4.setText("");
+
+        }
+        catch(Exception e)
+        {
+            jLabel4.setText("TABLE IS EMPTY");
+        }    // TODO add your handling code here:
+    }//GEN-LAST:event_jTable4MouseClicked
+
+    private void jScrollPane4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane4MouseClicked
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+
+        String s=jLabel12.getText();
+        if(!s.isEmpty())
+        {
+            int i=Integer.parseInt(s);
+
+            int c=0;
+            Details d;
+            d = new Details(c,status,i);
+            d.setVisible(true);
+
+        }
+
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -452,20 +1075,52 @@ public class policePortal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel VheicalList;
     private javax.swing.JPanel checkRoutePolice;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel policeNotification;
     private javax.swing.JPanel trackSuspect;
     private javax.swing.JPanel trackVehicle;

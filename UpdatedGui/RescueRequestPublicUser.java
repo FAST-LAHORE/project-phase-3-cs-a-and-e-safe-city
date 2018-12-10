@@ -7,9 +7,10 @@ package safecity;
 
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import modal.Category;
-import modal.Notification;
-import modal.NotificationFeed;
+import Classes.Category;
+import Classes.Notification;
+import Classes.NotificationFeed;
+import Classes.ProxyNotificationFeed;
 import validation.CnicValidation;
 import validation.PhoneValidation;
 
@@ -137,7 +138,7 @@ public class RescueRequestPublicUser extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 460, -1, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 450, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(54, 33, 89));
@@ -313,7 +314,11 @@ public class RescueRequestPublicUser extends javax.swing.JFrame {
            notificationObj.setLocation(reportLocation);
            notificationObj.setStatus(0);
           // notificationObj.setId(2);
-           boolean reportStatus=NotificationFeed.getNotificationFeed().addNotification(notificationObj);
+          
+          NotificationFeed instance = ProxyNotificationFeed.getInstance();
+        instance.setNotifications();
+        
+           boolean reportStatus=instance.addNotification(notificationObj);
            if(reportStatus)
                 JOptionPane.showMessageDialog(this,"Resquest submitted Successfully");
            else if(reportStatus)

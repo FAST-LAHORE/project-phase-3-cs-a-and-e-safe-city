@@ -1,28 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package safecity;
 
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import modal.Category;
-import modal.Notification;
-import modal.NotificationFeed;
+import Classes.Category;
+import Classes.Notification;
+import Classes.NotificationFeed;
+import Classes.ProxyNotificationFeed;
 import java.util.ArrayList;
 
-/**
- *
- * @author Bilal
- */
 public class rescuePortal extends javax.swing.JFrame {
 
-    ArrayList<Integer> notificationIds=new ArrayList<>();
+    ArrayList<Integer> notificationIds = new ArrayList<>();
     
-    /**
-     * Creates new form rescuePortal
-     */
     public rescuePortal() {
         
         super("Rescue Portal / Safe City");
@@ -53,25 +41,27 @@ public class rescuePortal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel5 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(2, 91, 133));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
         jPanel1.setPreferredSize(new java.awt.Dimension(955, 650));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(54, 33, 89));
         jPanel2.setPreferredSize(new java.awt.Dimension(225, 650));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton1.setBackground(new java.awt.Color(0, 37, 55));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Notifications");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -79,9 +69,10 @@ public class rescuePortal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 248, 168, 33));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 170, 33));
 
         jButton4.setBackground(new java.awt.Color(0, 37, 55));
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Check Route");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -89,12 +80,16 @@ public class rescuePortal extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 287, 168, 33));
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 168, 33));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/safecity/icons8_Wall_Mount_Camera_96px.png"))); // NOI18N
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 75, -1, -1));
+        jLabel1.setFont(new java.awt.Font("Azonix", 2, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("SafeCity");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 210, -1));
 
         jButton5.setBackground(new java.awt.Color(0, 37, 55));
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Log Out");
         jButton5.setMaximumSize(new java.awt.Dimension(93, 23));
@@ -105,9 +100,10 @@ public class rescuePortal extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 326, 168, 32));
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 168, 32));
 
         jButton2.setBackground(new java.awt.Color(0, 37, 55));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Home");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -115,9 +111,8 @@ public class rescuePortal extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(26, 209, 168, 33));
-
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 170, 33));
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 132, 210, 10));
 
         jPanel3.setBackground(new java.awt.Color(2, 91, 133));
         jPanel3.setPreferredSize(new java.awt.Dimension(735, 650));
@@ -126,6 +121,20 @@ public class rescuePortal extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 204, 102));
         jPanel6.setPreferredSize(new java.awt.Dimension(735, 650));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel5.setBackground(new java.awt.Color(255, 204, 102));
+        jPanel5.setPreferredSize(new java.awt.Dimension(735, 650));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/safecity/images/ambulancefire.png"))); // NOI18N
+        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, 10, 690, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel3.setText("WELCOME TO RESCUE PORTAL");
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, -1, -1));
+
+        jPanel6.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 720, 640));
+
         jPanel3.add(jPanel6, "card4");
 
         jPanel4.setBackground(new java.awt.Color(2, 91, 133));
@@ -154,100 +163,42 @@ public class rescuePortal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 724, 650));
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-6, 0, 730, 650));
 
         jPanel3.add(jPanel4, "card2");
 
-        jPanel5.setBackground(new java.awt.Color(255, 204, 102));
-        jPanel5.setPreferredSize(new java.awt.Dimension(735, 650));
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel3.add(jPanel5, "card3");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(231, 0, 724, -1));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+        );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        pack();
+        setSize(new java.awt.Dimension(946, 621));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        new GoogleMapsSample().setVisible(true);
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        jPanel3.removeAll();
-        jPanel3.add(jPanel4);
-        jPanel3.repaint();
-        jPanel3.revalidate();
-        notificationsShow();
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    public void notificationsShow()
-    {
-        NotificationFeed instance=NotificationFeed.getNotificationFeed();
-        List<Notification> notificationList=instance.getNotifications();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        
-        
-        
-        for(int i=0;i<notificationList.size();i++)
-        {
-            Notification currentNotification=notificationList.get(i);
-            
-            Category catogory=currentNotification.getCategory();
-           
-            
-                    
-            boolean isRescueNotification=catogory.equals(Category.Ambulance)|| catogory.equals(Category.FireBrigade)
-                    ||catogory.equals(Category.Suicide) || catogory.equals(Category.Murder) 
-                    || catogory.equals(Category.Other);        
-            
-            
-            if(isRescueNotification  ){
-                
-            notificationIds.add(currentNotification.getId());    
-            String Status;
-            String phone=currentNotification.getPhone();
-            if(phone==null)
-                phone="Safecity Depatment";
-            
-            if(currentNotification.getStatus()==0)
-                 Status="Not Resolved Yet";
-            else if (currentNotification.getStatus()== 1)
-                 Status="Ongoing..";
-            else 
-                 Status="Resolved";
-            
-            model.addRow(new Object[]{catogory,currentNotification.getDescription()
-            , currentNotification.getLocation(),phone,Status});
-            
-        }
-        
-        }
-    
-    }
-    
-    
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        
-         this.dispose();
-       HomePageUI ui= new HomePageUI();
-        
-        ui.getCardPanel().removeAll();
-        ui.getCardPanel().repaint();
-        ui.getCardPanel().revalidate();
-
-        ui.getCardPanel().add(ui.getloginPanel());
-        ui.getCardPanel().repaint();
-        ui.getCardPanel().revalidate();
-        
-        ui.setVisible(true);
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
@@ -255,22 +206,19 @@ public class rescuePortal extends javax.swing.JFrame {
         int rowAtClick =source.rowAtPoint(evt.getPoint());
         ///
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
-       
+
         if(rowAtClick!=-1){
-            
-        Category catogory=(Category)model.getValueAt(rowAtClick, 0);
-        String description=(String)model.getValueAt(rowAtClick, 1);
-        String location =(String)model.getValueAt(rowAtClick, 2);
-        String repoter=(String)model.getValueAt(rowAtClick, 3);
-        String status=(String)model.getValueAt(rowAtClick, 4);
-        
-        JtableInfoOrganization infoForm=new JtableInfoOrganization(catogory,description,repoter,status,location,notificationIds.get(rowAtClick),this,2);
-        infoForm.setVisible(true);
+
+            Category catogory=(Category)model.getValueAt(rowAtClick, 0);
+            String description=(String)model.getValueAt(rowAtClick, 1);
+            String location =(String)model.getValueAt(rowAtClick, 2);
+            String repoter=(String)model.getValueAt(rowAtClick, 3);
+            String status=(String)model.getValueAt(rowAtClick, 4);
+
+            JtableInfoOrganization infoForm=new JtableInfoOrganization(catogory,description,repoter,status,location,notificationIds.get(rowAtClick),this,2);
+            infoForm.setVisible(true);
         }
-        
-        
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -281,6 +229,119 @@ public class rescuePortal extends javax.swing.JFrame {
         jPanel3.revalidate();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+
+        this.dispose();
+        HomePageUI ui= new HomePageUI();
+
+        ui.getCardPanel().removeAll();
+        ui.getCardPanel().repaint();
+        ui.getCardPanel().revalidate();
+
+        ui.getCardPanel().add(ui.getloginPanel());
+        ui.getCardPanel().repaint();
+        ui.getCardPanel().revalidate();
+
+        ui.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        new GoogleMapsSample().setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jPanel3.removeAll();
+        jPanel3.add(jPanel4);
+        jPanel3.repaint();
+        jPanel3.revalidate();
+        notificationsShow();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void notificationsShow()
+    {
+        NotificationFeed instance = ProxyNotificationFeed.getInstance();
+        instance.setNotifications();
+        ArrayList<Notification> notificationList = instance.getRescueFilteredNotifications();
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        
+        
+        
+        for(int i=0;i<notificationList.size();i++)
+        {
+            Notification currentNotification = notificationList.get(i);
+           
+            notificationIds.add(currentNotification.getId());    
+            String Status;
+            switch (currentNotification.getStatus()) {
+                case 0:
+                    Status="Not Resolved Yet";
+                    break;
+                case 1:
+                    Status="Ongoing..";
+                    break;
+                default:
+                    Status="Resolved";
+                    break;
+            }
+            
+            model.addRow(new Object[]{currentNotification.getCategory()
+                    ,currentNotification.getDescription()
+            , currentNotification.getLocation(),
+            currentNotification.getPhone(),
+            Status});
+        }
+        
+//        NotificationFeed instance = ProxyNotificationFeed.getInstance();
+//        instance.setNotifications();
+//        List<Notification> notificationList = instance.getNotifications();
+//        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//        model.setRowCount(0);
+//        
+//        
+//        
+//        for(int i=0;i<notificationList.size();i++)
+//        {
+//            Notification currentNotification=notificationList.get(i);
+//            
+//            Category catogory=currentNotification.getCategory();
+//           
+//            
+//                    
+//            boolean isRescueNotification=catogory.equals(Category.Ambulance)|| catogory.equals(Category.FireBrigade)
+//                    ||catogory.equals(Category.Suicide) || catogory.equals(Category.Murder) 
+//                    || catogory.equals(Category.Other);        
+//            
+//            
+//            if(isRescueNotification  ){
+//                
+//            notificationIds.add(currentNotification.getId());    
+//            String Status;
+//            String phone=currentNotification.getPhone();
+//            if(phone==null)
+//                phone="Safecity Depatment";
+//            
+//            if(currentNotification.getStatus()==0)
+//                 Status="Not Resolved Yet";
+//            else if (currentNotification.getStatus()== 1)
+//                 Status="Ongoing..";
+//            else 
+//                 Status="Resolved";
+//            
+//            model.addRow(new Object[]{catogory,currentNotification.getDescription()
+//            , currentNotification.getLocation(),phone,Status});
+//            
+//        }
+//        
+//        }
+    
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -322,6 +383,8 @@ public class rescuePortal extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -329,6 +392,7 @@ public class rescuePortal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

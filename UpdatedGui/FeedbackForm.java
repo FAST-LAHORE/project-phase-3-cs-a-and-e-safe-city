@@ -5,11 +5,13 @@
  */
 package safecity;
 
+import Classes.NotificationFeed;
+import Classes.Feedback;
+import Classes.ProxyNotificationFeed;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import javax.persistence.EntityManager;
 
-import modal.*;
 /**
  *
  * @author Bilal
@@ -123,7 +125,11 @@ public class FeedbackForm extends javax.swing.JFrame {
             Feedback feedback =new Feedback();
             feedback.setMessage(msg);
             feedback.setCatogory(false);
-            NotificationFeed.getNotificationFeed().addFeedback(feedback);
+            
+            NotificationFeed instance = ProxyNotificationFeed.getInstance();
+        instance.setNotifications();
+            
+            instance.addFeedback(feedback);
             JOptionPane.showMessageDialog(this,"Feedback submitted Successfully");
             
         }

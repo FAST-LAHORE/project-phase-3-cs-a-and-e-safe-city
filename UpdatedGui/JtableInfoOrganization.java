@@ -7,8 +7,9 @@ package safecity;
 
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import modal.Category;
-import modal.NotificationFeed;
+import Classes.Category;
+import Classes.NotificationFeed;
+import Classes.ProxyNotificationFeed;
 
 /**
  *
@@ -110,7 +111,7 @@ public class JtableInfoOrganization extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 525));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(54, 33, 89));
         jLabel7.setText("Notification Type:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 77, -1, -1));
@@ -121,7 +122,7 @@ public class JtableInfoOrganization extends javax.swing.JFrame {
         jTextField1.setPreferredSize(new java.awt.Dimension(6, 24));
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 75, 160, 24));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(54, 33, 89));
         jLabel2.setText("Reporter:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, -1, -1));
@@ -132,12 +133,12 @@ public class JtableInfoOrganization extends javax.swing.JFrame {
         jTextField5.setPreferredSize(new java.awt.Dimension(6, 24));
         jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 132, 160, 24));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(54, 33, 89));
         jLabel8.setText("Description:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 241, -1, -1));
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(54, 33, 89));
         jLabel9.setText("Status:");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 400, -1, -1));
@@ -158,19 +159,19 @@ public class JtableInfoOrganization extends javax.swing.JFrame {
         jTextField7.setPreferredSize(new java.awt.Dimension(6, 24));
         jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 346, 160, 24));
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(54, 33, 89));
         jLabel10.setText("Location:");
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 348, -1, -1));
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(54, 33, 89));
         jLabel11.setText("Notification");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 11, -1, -1));
 
         jComboBox1.setBackground(new java.awt.Color(255, 255, 204));
         jComboBox1.setForeground(new java.awt.Color(54, 33, 89));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Not Resolved Yet", "Ongoing..", "Resolved", " ", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Not Resolved Yet", "Ongoing..", "Resolved" }));
         jComboBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox1ItemStateChanged(evt);
@@ -186,7 +187,7 @@ public class JtableInfoOrganization extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, -1, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 450, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -225,7 +226,10 @@ public class JtableInfoOrganization extends javax.swing.JFrame {
             else
                 status=2;
             
-            NotificationFeed.getNotificationFeed().updateNotification( notificationId,status);
+            NotificationFeed instance = ProxyNotificationFeed.getInstance();
+        instance.setNotifications();
+            
+            instance.updateNotification( notificationId,status);
             
             if(portal1!=null)
                 portal1.notificationsShow();

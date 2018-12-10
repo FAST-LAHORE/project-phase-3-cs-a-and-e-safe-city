@@ -8,9 +8,9 @@ package safecity;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import modal.EntityManagerClass;
-import modal.Feedback;
-import modal.NotificationFeed;
+import Classes.Feedback;
+import Classes.NotificationFeed;
+import Classes.ProxyNotificationFeed;
 
 /**
  *
@@ -83,7 +83,7 @@ public class suggeionForm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(148, 148, 148)
                         .addComponent(jLabel9)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,13 +101,11 @@ public class suggeionForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
         );
 
         pack();
@@ -125,7 +123,11 @@ public class suggeionForm extends javax.swing.JFrame {
             Feedback feedback =new Feedback();
             feedback.setMessage(msg);
             feedback.setCatogory(true);
-            NotificationFeed.getNotificationFeed().addFeedback(feedback);
+            
+            NotificationFeed instance = ProxyNotificationFeed.getInstance();
+        instance.setNotifications();
+            
+            instance.addFeedback(feedback);
             JOptionPane.showMessageDialog(this,"Suggestion submitted Successfully");
             
         }
