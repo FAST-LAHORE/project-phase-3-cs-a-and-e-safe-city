@@ -12,7 +12,6 @@ public class ProxyNotificationFeed implements NotificationFeed{
     // FOR REDUCING MEMORY FOORPRINT OF REAL OBJECT IMAGE
     private RealNotificationFeed realNotificationFeed;
     
-    private List<Notification> allNotifications;
     private final EntityManager em;
     
     private ProxyNotificationFeed(){
@@ -28,13 +27,12 @@ public class ProxyNotificationFeed implements NotificationFeed{
     public void setNotifications() {
         if(realNotificationFeed == null){
             realNotificationFeed = new RealNotificationFeed();
-            allNotifications = realNotificationFeed.getNotifications();
         }
     }
     
     @Override
     public List<Notification> getNotifications() {
-        return allNotifications;
+        return realNotificationFeed.getNotifications();
     }
 
     // THIS METHOD RETURNS FILTERED NOTIFICATIONS FOR RESCUE DEPARTMENT
